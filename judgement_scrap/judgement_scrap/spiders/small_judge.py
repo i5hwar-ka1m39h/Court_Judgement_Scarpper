@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 
 
+
 #clean the text remove all the extra whitespaces and line
 def clean_text(text):
     text = re.sub(r'\s+', ' ', text) # multiple spaces and newlines
@@ -95,30 +96,46 @@ def format_judgement_text(judgement):
     return "\n".join(formatted_text)
 
 
-
+# small_judge.py
 class SmallJudgeSpider(scrapy.Spider):
     name = "small_judge"
     allowed_domains = ["indiankanoon.org"]
-    start_urls = ["https://indiankanoon.org/doc/95609026/"]
-
+    start_urls = ["https://indiankanoon.org/doc/95609026/",
+                  "https://indiankanoon.org/doc/22323604/",
+                  "https://indiankanoon.org/doc/174244987/",
+                  "https://indiankanoon.org/doc/70913397/",
+                  "https://indiankanoon.org/doc/187260364/",
+                  "https://indiankanoon.org/doc/173575471/",
+                  "https://indiankanoon.org/doc/64092156/",
+                  "https://indiankanoon.org/doc/125767416/",
+                  "https://indiankanoon.org/doc/196200292/",
+                  "https://indiankanoon.org/doc/77746091/",
+                  "https://indiankanoon.org/doc/90052727/",
+                  "https://indiankanoon.org/doc/139870956/",
+                  "https://indiankanoon.org/doc/191080286/",
+                  "https://indiankanoon.org/doc/185437413/",
+                  "https://indiankanoon.org/doc/10909725/",
+                  "https://indiankanoon.org/doc/118777590/",
+                  "https://indiankanoon.org/doc/124568699/",
+                  "https://indiankanoon.org/doc/45242209/",
+                  "https://indiankanoon.org/doc/44178519/",
+                  "https://indiankanoon.org/doc/43162195/"]
+    
     def parse(self, response):
-        result = response.css('div.judgments').get()
+        judgement_html = response.css('div.judgments').get()
         title = response.css("h2.doc_title::text").get()
-        if result :
-            judgement = extract_judgement(result)
-            clear_reult = format_judgement_text(judgement)
-            if clear_reult:
-                yield{
+        
+        if judgement_html:
+            judgement = extract_judgement(judgement_html)  # Pass judgement_html instead of result
+            clear_result = format_judgement_text(judgement)  # Fixed variable name from clear_reult
+            
+            if clear_result:  # Fixed variable name
+                yield {
                     "title": title,
-                    "all_data": clear_reult
+                    "all_data": clear_result
                 }
             else:
-                yield{
+                yield {
                     'title': "",
                     "all_data": ""
                 }
-            
-        
-
-        
-       

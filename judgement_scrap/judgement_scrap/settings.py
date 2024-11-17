@@ -36,3 +36,11 @@ DEFAULT_REQUEST_HEADERS = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+FEEDS = {
+    "judgements.json":{'format':'json'}
+}
+
+ITEM_PIPELINES = {
+    'judgement_scrap.pipelines.SaveToDBpipeline':300
+}

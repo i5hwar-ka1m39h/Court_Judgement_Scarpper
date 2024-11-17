@@ -9,4 +9,6 @@ import scrapy
 class JudgementScrapItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    title = scrapy.Field()
+    all_data = scrapy.Field()
     pass
